@@ -1,7 +1,9 @@
-package com.example.bookshop;
+package com.example.bookshop.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.bookshop.R;
 
 public class MainActivity extends AppCompatActivity {
 
