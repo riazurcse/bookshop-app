@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.example.bookshop.R;
 import com.example.bookshop.databinding.ActivityLoginBinding;
@@ -15,7 +17,7 @@ import com.example.bookshop.viewmodel.LoginViewModel;
 
 import java.util.Objects;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnTouchListener {
 
 
     private LoginViewModel loginViewModel;
@@ -60,5 +62,24 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        binding.passwordET.setOnTouchListener(this);
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        final int DRAWABLE_LEFT = 0;
+        final int DRAWABLE_TOP = 1;
+        final int DRAWABLE_RIGHT = 2;
+        final int DRAWABLE_BOTTOM = 3;
+
+        if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            if(motionEvent.getRawX() >= (binding.passwordET.getRight() - binding.passwordET.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                // your action here
+
+                return true;
+            }
+        }
+        return false;
     }
 }
