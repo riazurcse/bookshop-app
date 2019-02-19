@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/toolbar"
+                android:id="@+id/toolBar"
                 layout="@layout/tool_bar"></include>
 
             <LinearLayout

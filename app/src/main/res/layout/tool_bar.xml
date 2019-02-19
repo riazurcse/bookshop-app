@@ -8,6 +8,7 @@
     app:titleTextColor="@color/toolBarTextColor"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
+    app:titleMarginStart="15dp"
     app:contentInsetStartWithNavigation="0dp"
     app:theme="@style/ToolbarColoredIcon"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">

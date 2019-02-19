@@ -16,8 +16,8 @@ public class User {
         return Patterns.EMAIL_ADDRESS.matcher(getEmailAddress()).matches();
     }
 
-    public boolean isPasswordLengthGreaterThan8() {
-        return getPassword().length() > 8;
+    public boolean isPasswordLengthGreaterThan5() {
+        return getPassword().length() > 5;
     }
 
     public String getEmailAddress() {
