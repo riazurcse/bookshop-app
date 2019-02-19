@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="LoginViewModel"
             type="com.example.bookshop.viewmodel.LoginViewModel" />
@@ -42,7 +43,7 @@
                         android:layout_margin="@dimen/margin_5dp"
                         android:hint="USERNAME"
                         android:inputType="textEmailAddress"
-                        android:textAlignment="center"
+                        android:text="@={LoginViewModel.emailAddress}"
                         android:textSize="13sp"
                         android:textStyle="normal" />
 
@@ -55,7 +56,8 @@
                         android:layout_marginBottom="@dimen/margin_5dp"
                         android:hint="PASSWORD"
                         android:inputType="textPassword"
-                        android:textAlignment="center"
+                        android:drawableRight="@drawable/ic_visibility_off"
+                        android:text="@={LoginViewModel.password}"
                         android:textSize="13sp"
                         android:textStyle="normal" />
 
