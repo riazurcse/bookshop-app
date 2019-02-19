@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_from_all_side">16dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_26dp">26dp</dimen>
+    <dimen name="height_35dp">35dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="primary_text_size">17dp</dimen>
+    <dimen name="secondary_text_size">15dp</dimen>
+</resources>
