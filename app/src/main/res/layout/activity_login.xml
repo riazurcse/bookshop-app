@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="LoginViewModel"
             type="com.example.bookshop.viewmodel.LoginViewModel" />
@@ -54,9 +53,9 @@
                         android:layout_marginLeft="@dimen/margin_5dp"
                         android:layout_marginRight="@dimen/margin_5dp"
                         android:layout_marginBottom="@dimen/margin_5dp"
+                        android:drawableRight="@drawable/ic_visibility_off"
                         android:hint="PASSWORD"
                         android:inputType="textPassword"
-                        android:drawableRight="@drawable/ic_visibility_off"
                         android:text="@={LoginViewModel.password}"
                         android:textSize="13sp"
                         android:textStyle="normal" />
