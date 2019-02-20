@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.bookshop.R;
 import com.example.bookshop.model.Book;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {

@@ -140,7 +140,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
                 finish();
             }
         });
-
     }
 
     private void prepareSignupData(String name, String username, String password) {

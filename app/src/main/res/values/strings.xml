@@ -34,5 +34,6 @@
     <string name="title_failed">Failed</string>
     <string name="something_went_wrong_text">Something went wrong</string>
     <string name="invalid_username_password_message">Invalid username or password</string>
+    <string name="add_to_cart">ADD TO CART</string>
 
 </resources>

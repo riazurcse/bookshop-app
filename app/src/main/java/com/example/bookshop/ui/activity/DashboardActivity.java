@@ -3,6 +3,7 @@ package com.example.bookshop.ui.activity;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.view.View;
 
 import com.example.bookshop.R;
 import com.example.bookshop.common.Constants;
+import com.example.bookshop.common.IntentKeys;
 import com.example.bookshop.databinding.ActivityDashboardBinding;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.Response;
@@ -120,7 +122,11 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Log.d(TAG, "" + position);
+                Gson gson = new Gson();
+                String detailJSON = gson.toJson(dashboardViewModel.books.get(position));
+                Intent intent = new Intent(DashboardActivity.this, BookDetailsActivity.class);
+                intent.putExtra(IntentKeys.BOOK_DETAILS, detailJSON);
+                startActivity(intent);
             }
         });
     }

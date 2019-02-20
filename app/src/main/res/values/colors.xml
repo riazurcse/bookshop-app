@@ -12,4 +12,10 @@
     <color name ="divider">#BDBDBD</color>
     <color name="listBgColor">#F1F1F1</color>
 
+    <color name="addToCartButtonColor">#FDDAD6</color>
+    <color name="addToCartTextColor">#E0514D</color>
+
+    <color name="wishlistButtonColor">#F34334</color>
+    <color name="wishlistTextColor">#FFFFFF</color>
+
 </resources>
