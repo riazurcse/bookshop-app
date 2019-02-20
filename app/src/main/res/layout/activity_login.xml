@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="LoginViewModel"
             type="com.example.bookshop.viewmodel.LoginViewModel" />
@@ -70,6 +71,15 @@
                         android:onClick="@{(v) -> LoginViewModel.onClick(v)}"
                         android:text="@string/login_title"
                         android:textColor="@color/toolBarTextColor" />
+
+                    <TextView
+                        android:layout_marginTop="@dimen/margin_5dp"
+                        android:id="@+id/signupTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{(v) -> LoginViewModel.signupClicked(v)}"
+                        android:text="@string/signup_message"
+                        android:textAlignment="center" />
 
                 </LinearLayout>
 

@@ -13,26 +13,27 @@ import org.json.JSONObject;
 
 
 
-public class AuthRepository implements ResponseCallback{
+public class AuthRepository {
 
-    Context mContext;
     ApiClient apiClient;
 
-    public AuthRepository() {
-        apiClient = new ApiClient(this);
+    public AuthRepository(ApiClient apiClient) {
+        this.apiClient = apiClient;
     }
 
-    public void doLogin(JSONObject params) {
-        //String url = ApiEndPoints.BASE_URL + ApiEndPoints.LOGIN_URL;
-        String url = "https://jsonplaceholder.typicode.com/posts";
-        //apiClient.post(url, params, MethodTags.ONE, false);
-        apiClient.get(url, MethodTags.ONE);
-    }
-
-    @Override
-    public void responseHandler(String response) {
-        if (response != null) {
-            Log.d("TAG", "TEST");
-        }
+    public void doLogin(JSONObject params, final ResponseCallback responseCallback) {
+        String url = ApiEndPoints.BASE_URL + ApiEndPoints.LOGIN_URL;
+        apiClient.post(url, params, MethodTags.ONE, new ResponseCallback() {
+            @Override
+            public void responseHandler(String response, int tag, int statusCode) {
+                responseCallback.responseHandler(response, tag, statusCode);
+            }
+        });
+//        apiClient.get(url, MethodTags.ONE, new ResponseCallback() {
+//            @Override
+//            public void responseHandler(String response, int tag, int statusCode) {
+//                responseCallback.responseHandler(response, tag, statusCode);
+//            }
+//        });
     }
 }

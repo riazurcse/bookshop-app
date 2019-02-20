@@ -1,5 +1,6 @@
 package com.example.bookshop.ui.activity;
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
@@ -15,8 +16,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.bookshop.R;
+import com.example.bookshop.common.Constants;
 import com.example.bookshop.databinding.ActivityLoginBinding;
+import com.example.bookshop.model.Response;
 import com.example.bookshop.model.User;
+import com.example.bookshop.utils.CommonHelper;
 import com.example.bookshop.viewmodel.LoginViewModel;
 
 import org.json.JSONException;
@@ -26,6 +30,7 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity implements View.OnTouchListener {
 
+    private static final String TAG = LoginActivity.class.getName();
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
@@ -33,6 +38,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
     Toolbar toolbar;
 
     boolean passwordVisibility = false;
+    ProgressDialog mProgress;
+    private CommonHelper commonHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initSetup() {
+        mProgress = new ProgressDialog(this);
+        commonHelper = new CommonHelper(this);
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         setupToolbar();
@@ -74,14 +83,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
             }
         });
         binding.passwordET.setOnTouchListener(this);
-        loginViewModel.getResponse().observe(this, new Observer<String>(){
+        loginViewModel.getResponse().observe(this, new Observer<Response>(){
 
             @Override
-            public void onChanged(@Nullable String s) {
-                if (s != null) {
-                    Log.d("TAG", "");
+            public void onChanged(@Nullable Response response) {
+                mProgress.dismiss();
+                if (response != null) {
+                    if (response.getStatusCode() == Constants.STATUS_OK) {
+                        Log.d(TAG, response.getResponse());
+                    }
                 }
+                else {
 
+                }
+            }
+        });
+
+        loginViewModel.signupTextViewClicked.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean != null) {
+                    if (aBoolean) {
+                        Log.d(TAG, "signup button clicked");
+                    }
+                }
             }
         });
     }
@@ -93,6 +118,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
 
     private void prepareLoginData(String username, String password) {
         try {
+            commonHelper.showLoader(mProgress, false, Constants.LOADING);
             JSONObject params = new JSONObject();
             params.put("email", username);
             params.put("password", password);
@@ -106,10 +132,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-        final int DRAWABLE_LEFT = 0;
-        final int DRAWABLE_TOP = 1;
         final int DRAWABLE_RIGHT = 2;
-        final int DRAWABLE_BOTTOM = 3;
 
         if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
             if(motionEvent.getRawX() >= (binding.passwordET.getRight() - binding.passwordET.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {

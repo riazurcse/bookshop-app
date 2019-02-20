@@ -6,4 +6,5 @@ public class Constants {
 
     public static final int STATUS_OK = 200;
     public static final String LOGIN_STATUS = "login_status";
+    public static final String LOADING = "Loading...";
 }

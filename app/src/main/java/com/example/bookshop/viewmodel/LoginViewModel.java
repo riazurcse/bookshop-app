@@ -2,27 +2,32 @@ package com.example.bookshop.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 import android.view.View;
 
+import com.example.bookshop.model.Response;
 import com.example.bookshop.model.User;
+import com.example.bookshop.networking.ApiClient;
 import com.example.bookshop.repository.AuthRepository;
+import com.example.bookshop.utils.ResponseCallback;
 
 import org.json.JSONObject;
 
 public class LoginViewModel extends ViewModel {
 
     private AuthRepository authRepository;
+    private ApiClient apiClient;
 
     public LoginViewModel() {
-        authRepository = new AuthRepository();
+        apiClient = new ApiClient();
+        authRepository = new AuthRepository(apiClient);
     }
 
     public MutableLiveData<String> emailAddress = new MutableLiveData<>();
     public MutableLiveData<String> password = new MutableLiveData<>();
+    public MutableLiveData<Boolean> signupTextViewClicked = new MutableLiveData<>();
 
     private MutableLiveData<User> userMutableLiveData;
-    private MutableLiveData<String> response;
+    private MutableLiveData<Response> response;
 
     public MutableLiveData<User> getUser() {
 
@@ -32,7 +37,7 @@ public class LoginViewModel extends ViewModel {
         return userMutableLiveData;
     }
 
-    public MutableLiveData<String> getResponse() {
+    public MutableLiveData<Response> getResponse() {
         if (response == null) {
             response = new MutableLiveData<>();
         }
@@ -45,8 +50,17 @@ public class LoginViewModel extends ViewModel {
         userMutableLiveData.setValue(loginUser);
     }
 
+    public void signupClicked(View view) {
+        signupTextViewClicked.setValue(true);
+    }
+
     public void doLogin(JSONObject params) {
-        authRepository.doLogin(params);
-        //response.setValue(value.getValue());
+        authRepository.doLogin(params, new ResponseCallback() {
+            @Override
+            public void responseHandler(String res, int tag, int statusCode) {
+                Response apiResponse = new Response(statusCode, res);
+                response.setValue(apiResponse);
+            }
+        });
     }
 }
