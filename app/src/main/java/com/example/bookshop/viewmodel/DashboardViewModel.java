@@ -3,13 +3,16 @@ package com.example.bookshop.viewmodel;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.v7.widget.RecyclerView;
 
 import com.example.bookshop.common.Constants;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.Response;
 import com.example.bookshop.networking.ApiClient;
 import com.example.bookshop.repository.BookRepository;
+import com.example.bookshop.ui.adapter.BookAdapter;
 import com.example.bookshop.utils.CommonHelper;
+import com.example.bookshop.utils.PreferenceHelper;
 import com.example.bookshop.utils.ResponseCallback;
 
 import java.util.List;
@@ -21,6 +24,11 @@ public class DashboardViewModel extends ViewModel {
 
     public ProgressDialog mProgress;
     public CommonHelper commonHelper;
+    public PreferenceHelper preferenceHelper;
+
+    public BookAdapter bookAdapter;
+    public RecyclerView bookRecyclerView;
+    public List<Book> books;
 
     public DashboardViewModel() {
         apiClient = new ApiClient();

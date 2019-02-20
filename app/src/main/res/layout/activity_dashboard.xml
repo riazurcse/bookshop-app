@@ -25,7 +25,7 @@
                 layout="@layout/tool_bar"></include>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/bookRecyclerViewList"
+                android:id="@+id/bookRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/listBgColor"

@@ -17,19 +17,41 @@
 
         <LinearLayout
             android:layout_width="100dp"
-            android:layout_height="match_parent">
+            android:layout_height="150dp"
+            android:gravity="center_vertical">
 
             <ImageView
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_placeholder"
+                android:id="@+id/bookIV"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_placeholder" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_5dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/bookTitleTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title Here"
+                android:textSize="@dimen/primary_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/bookSubtitleTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subtitle Here"
+                android:textSize="@dimen/secondary_text_size"
+                android:textStyle="normal" />
 
         </LinearLayout>
 

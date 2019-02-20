@@ -5,6 +5,7 @@
     <dimen name="margin_26dp">26dp</dimen>
     <dimen name="height_35dp">35dp</dimen>
     <dimen name="margin_5dp">5dp</dimen>
-    <dimen name="primary_text_size">17dp</dimen>
-    <dimen name="secondary_text_size">15dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="primary_text_size">17sp</dimen>
+    <dimen name="secondary_text_size">15sp</dimen>
 </resources>
