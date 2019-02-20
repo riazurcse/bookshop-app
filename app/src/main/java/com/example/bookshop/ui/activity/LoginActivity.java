@@ -3,6 +3,7 @@ package com.example.bookshop.ui.activity;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -104,7 +105,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
             public void onChanged(@Nullable Boolean aBoolean) {
                 if (aBoolean != null) {
                     if (aBoolean) {
-                        Log.d(TAG, "signup button clicked");
+                        Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                        startActivity(intent);
                     }
                 }
             }

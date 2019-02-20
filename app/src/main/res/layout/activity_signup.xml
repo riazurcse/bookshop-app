@@ -4,14 +4,14 @@
 
     <data>
         <variable
-            name="LoginViewModel"
-            type="com.example.bookshop.viewmodel.LoginViewModel" />
+            name="SignupViewModel"
+            type="com.example.bookshop.viewmodel.SignupViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activity.LoginActivity">
+        tools:context=".ui.activity.SignupActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,18 +35,31 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/usernameET"
+                        android:id="@+id/nameET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_5dp"
-                        android:hint="USERNAME"
+                        android:hint="NAME"
                         android:inputType="textEmailAddress"
-                        android:text="@={LoginViewModel.emailAddress}"
+                        android:text="@={SignupViewModel.name}"
                         android:textSize="13sp"
                         android:textStyle="normal" />
 
                     <EditText
-                        android:id="@+id/passwordET"
+                        android:id="@+id/signupUsernameET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_5dp"
+                        android:layout_marginRight="@dimen/margin_5dp"
+                        android:layout_marginBottom="@dimen/margin_5dp"
+                        android:hint="USERNAME"
+                        android:inputType="textEmailAddress"
+                        android:text="@={SignupViewModel.emailAddress}"
+                        android:textSize="13sp"
+                        android:textStyle="normal" />
+
+                    <EditText
+                        android:id="@+id/signupPasswordET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_5dp"
@@ -55,7 +68,7 @@
                         android:drawableRight="@drawable/ic_visibility_off"
                         android:hint="PASSWORD"
                         android:inputType="textPassword"
-                        android:text="@={LoginViewModel.password}"
+                        android:text="@={SignupViewModel.password}"
                         android:textSize="13sp"
                         android:textStyle="normal" />
 
@@ -66,18 +79,9 @@
                         android:layout_marginRight="@dimen/margin_5dp"
                         android:layout_marginBottom="@dimen/margin_5dp"
                         android:background="@drawable/rounded_corner_button"
-                        android:onClick="@{(v) -> LoginViewModel.onClick(v)}"
-                        android:text="@string/login_title"
+                        android:onClick="@{(v) -> SignupViewModel.onClick(v)}"
+                        android:text="@string/signup_title"
                         android:textColor="@color/toolBarTextColor" />
-
-                    <TextView
-                        android:layout_marginTop="@dimen/margin_5dp"
-                        android:id="@+id/signupTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="@{(v) -> LoginViewModel.signupClicked(v)}"
-                        android:text="@string/signup_message"
-                        android:textAlignment="center" />
 
                 </LinearLayout>
 
@@ -88,4 +92,3 @@
     </RelativeLayout>
 
 </layout>
-
