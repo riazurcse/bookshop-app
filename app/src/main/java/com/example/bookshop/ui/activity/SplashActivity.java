@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 boolean isLoggedIn = preferenceHelper.getBooleanValue(Constants.LOGIN_STATUS);
                 if (isLoggedIn) {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }

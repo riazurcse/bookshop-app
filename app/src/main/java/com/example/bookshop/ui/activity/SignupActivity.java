@@ -3,6 +3,7 @@ package com.example.bookshop.ui.activity;
 import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.example.bookshop.databinding.ActivitySignupBinding;
 import com.example.bookshop.model.Response;
 import com.example.bookshop.model.UserSignup;
 import com.example.bookshop.utils.CommonHelper;
+import com.example.bookshop.utils.PreferenceHelper;
 import com.example.bookshop.viewmodel.SignupViewModel;
 
 import org.json.JSONException;
@@ -40,6 +42,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
     boolean passwordVisibility = false;
     ProgressDialog mProgress;
     private CommonHelper commonHelper;
+    private PreferenceHelper preferenceHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
     private void initSetup() {
         mProgress = new ProgressDialog(this);
         commonHelper = new CommonHelper(this);
+        preferenceHelper = new PreferenceHelper(this);
+
         signupViewModel = ViewModelProviders.of(this).get(SignupViewModel.class);
         signupBinding = DataBindingUtil.setContentView(this, R.layout.activity_signup);
         setupToolbar();
@@ -63,24 +68,19 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
                 if (TextUtils.isEmpty(Objects.requireNonNull(userSignup).getName())) {
                     signupBinding.nameET.setError("Enter a Name");
                     signupBinding.nameET.requestFocus();
-                }
-                else if (TextUtils.isEmpty(Objects.requireNonNull(userSignup).getEmail())) {
+                } else if (TextUtils.isEmpty(Objects.requireNonNull(userSignup).getEmail())) {
                     signupBinding.signupUsernameET.setError("Enter an E-Mail Address");
                     signupBinding.signupUsernameET.requestFocus();
-                }
-                else if (!userSignup.isEmailValid()) {
+                } else if (!userSignup.isEmailValid()) {
                     signupBinding.signupUsernameET.setError("Enter a Valid E-mail Address");
                     signupBinding.signupUsernameET.requestFocus();
-                }
-                else if (TextUtils.isEmpty(Objects.requireNonNull(userSignup).getPassword())) {
+                } else if (TextUtils.isEmpty(Objects.requireNonNull(userSignup).getPassword())) {
                     signupBinding.signupPasswordET.setError("Enter a Password");
                     signupBinding.signupPasswordET.requestFocus();
-                }
-                else if (!userSignup.isPasswordLengthGreaterThan5()) {
+                } else if (!userSignup.isPasswordLengthGreaterThan5()) {
                     signupBinding.signupPasswordET.setError("Enter at least 6 digit password");
                     signupBinding.signupPasswordET.requestFocus();
-                }
-                else {
+                } else {
                     signupBinding.nameET.setText(userSignup.getName());
                     signupBinding.signupUsernameET.setText(userSignup.getEmail());
                     signupBinding.signupPasswordET.setText(userSignup.getPassword());
@@ -89,21 +89,43 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
             }
         });
         signupBinding.signupPasswordET.setOnTouchListener(this);
-        signupViewModel.getResponse().observe(this, new Observer<Response>(){
+        signupViewModel.getResponse().observe(this, new Observer<Response>() {
 
             @Override
             public void onChanged(@Nullable Response response) {
                 mProgress.dismiss();
                 if (response != null) {
                     if (response.getStatusCode() == Constants.STATUS_OK) {
-                        Log.d(TAG, response.getResponse());
-                    }
-                }
-                else {
+                        try {
+                            JSONObject responseJSON = new JSONObject(response.getResponse());
+                            if (responseJSON != null) {
+                                if (!responseJSON.isNull("error")) {
+                                    boolean error = responseJSON.getBoolean("error");
+                                    String message = responseJSON.isNull("message") ? "" : responseJSON.getString("message");
+                                    if (!error) {
+                                        commonHelper.showAlert(getString(R.string.title_success), message);
+                                        navigateToDashboard();
+                                    } else {
+                                        commonHelper.showAlert(getString(R.string.title_failed), message);
+                                    }
+                                }
+                            }
+                        } catch (JSONException ex) {
 
+                        }
+                    }
+                } else {
+                    commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
                 }
             }
         });
+    }
+
+    private void navigateToDashboard() {
+
+        preferenceHelper.saveUserInfo(Constants.LOGIN_STATUS, true);
+        Intent intent = new Intent(SignupActivity.this, DashboardActivity.class);
+        startActivity(intent);
     }
 
     private void setupToolbar() {
@@ -128,7 +150,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
             params.put("name", name);
             params.put("email", username);
             params.put("password", password);
-            //loginViewModel.doLogin(params);
+            signupViewModel.doSignup(params);
 
         } catch (JSONException ex) {
 
@@ -141,8 +163,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
 
         final int DRAWABLE_RIGHT = 2;
 
-        if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-            if(motionEvent.getRawX() >= (signupBinding.signupPasswordET.getRight() - signupBinding.signupPasswordET.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+        if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            if (motionEvent.getRawX() >= (signupBinding.signupPasswordET.getRight() - signupBinding.signupPasswordET.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                 int start, end;
                 start = signupBinding.signupPasswordET.getSelectionStart();
                 end = signupBinding.signupPasswordET.getSelectionEnd();
@@ -152,8 +174,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
                     signupBinding.signupPasswordET.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility, 0);
                     signupBinding.signupPasswordET.setInputType(InputType.TYPE_CLASS_TEXT);
                     signupBinding.signupPasswordET.setSelection(start, end);
-                }
-                else {
+                } else {
                     passwordVisibility = false;
                     signupBinding.signupPasswordET.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0);
                     signupBinding.signupPasswordET.setTransformationMethod(PasswordTransformationMethod.getInstance());

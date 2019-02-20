@@ -8,6 +8,9 @@ import com.example.bookshop.model.Response;
 import com.example.bookshop.model.UserSignup;
 import com.example.bookshop.networking.ApiClient;
 import com.example.bookshop.repository.AuthRepository;
+import com.example.bookshop.utils.ResponseCallback;
+
+import org.json.JSONObject;
 
 public class SignupViewModel extends ViewModel {
 
@@ -45,5 +48,16 @@ public class SignupViewModel extends ViewModel {
 
         UserSignup signupUser = new UserSignup(name.getValue(), emailAddress.getValue(), password.getValue());
         userMutableLiveData.setValue(signupUser);
+    }
+
+    public void doSignup(JSONObject params) {
+
+        authRepository.doSignup(params, new ResponseCallback() {
+            @Override
+            public void responseHandler(String res, int tag, int statusCode) {
+                Response apiResponse = new Response(statusCode, res);
+                response.setValue(apiResponse);
+            }
+        });
     }
 }

@@ -36,4 +36,15 @@ public class AuthRepository {
 //            }
 //        });
     }
+
+    public void doSignup(JSONObject params, final  ResponseCallback responseCallback) {
+
+        String url = ApiEndPoints.BASE_URL + ApiEndPoints.SIGNUP_URL;
+        apiClient.post(url, params, MethodTags.ONE, new ResponseCallback() {
+            @Override
+            public void responseHandler(String response, int tag, int statusCode) {
+                responseCallback.responseHandler(response, tag, statusCode);
+            }
+        });
+    }
 }
