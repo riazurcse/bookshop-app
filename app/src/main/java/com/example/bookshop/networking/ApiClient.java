@@ -21,15 +21,15 @@ public class ApiClient {
         AndroidNetworking.get(url)
                 .setPriority(Priority.HIGH)
                 .build()
-                .getAsJSONArray(new JSONArrayRequestListener() {
+                .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         callback.responseHandler(response.toString(), TAG, Constants.STATUS_OK);
                     }
 
                     @Override
-                    public void onError(ANError anError) {
-                        callback.responseHandler(anError.getLocalizedMessage(), TAG, anError.getErrorCode());
+                    public void onError(ANError error) {
+                        callback.responseHandler(error.getLocalizedMessage(), TAG, error.getErrorCode());
                     }
                 });
     }

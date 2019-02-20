@@ -10,5 +10,6 @@
     <color name ="icons">#FFFFFF</color>
     <color name="toolBarTextColor">#FFFFFF</color>
     <color name ="divider">#BDBDBD</color>
+    <color name="listBgColor">#F1F1F1</color>
 
 </resources>
