@@ -107,6 +107,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
 
                         }
                     }
+                    else {
+                        commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
+                    }
                 } else {
                     commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
                 }

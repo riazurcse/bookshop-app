@@ -114,6 +114,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnTouchLis
 
                         }
                     }
+                    else {
+                        commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
+                    }
                 } else {
                     commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
                 }

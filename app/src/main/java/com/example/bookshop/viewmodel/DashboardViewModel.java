@@ -61,7 +61,7 @@ public class DashboardViewModel extends ViewModel {
         bookRepository.loadBooks(new ResponseCallback() {
             @Override
             public void responseHandler(String res, int tag, int statusCode) {
-                Response apiResponse = new Response(statusCode, res);
+                Response apiResponse = new Response(statusCode, res == null ? "" : res);
                 response.setValue(apiResponse);
             }
         });

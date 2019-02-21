@@ -97,16 +97,22 @@ public class DashboardActivity extends AppCompatActivity {
                                             prepareBookList(bookJSONArray);
                                         }
                                     } else {
-                                        dashboardViewModel.commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
+                                        dashboardViewModel.commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
                                     }
                                 }
+                            }
+                            else {
+                                dashboardViewModel.commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
                             }
                         } catch (JSONException ex) {
 
                         }
                     }
+                    else {
+                        dashboardViewModel.commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
+                    }
                 } else {
-                    dashboardViewModel.commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
+                    dashboardViewModel.commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
                 }
             }
         });
