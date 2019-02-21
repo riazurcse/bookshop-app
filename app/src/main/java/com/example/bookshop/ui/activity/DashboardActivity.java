@@ -27,6 +27,7 @@ import com.example.bookshop.utils.ItemClickSupport;
 import com.example.bookshop.utils.PreferenceHelper;
 import com.example.bookshop.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -62,6 +63,7 @@ public class DashboardActivity extends AppCompatActivity {
         dashboardViewModel.mProgress = new ProgressDialog(this);
         dashboardViewModel.commonHelper = new CommonHelper(this);
         dashboardViewModel.preferenceHelper = new PreferenceHelper(this);
+        dashboardViewModel.gson = new Gson();
         setupToolbar();
         setupRecyclerView();
         dashboardViewModel.loadBooks();
@@ -159,26 +161,37 @@ public class DashboardActivity extends AppCompatActivity {
         drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
     }
 
-    private void setupRecyclerView() {
+    private void getCachedData() {
         dashboardViewModel.books = new ArrayList<>();
+        String cachedJSON = "";
+        cachedJSON = dashboardViewModel.preferenceHelper.getUserInfo(Constants.CACHE_DATA) != null ? dashboardViewModel.preferenceHelper.getUserInfo(Constants.CACHE_DATA) : "";
+        if (cachedJSON.length() > 0) {
+            dashboardViewModel.books = dashboardViewModel.gson.fromJson(cachedJSON, new TypeToken<List<Book>>() {
+            }.getType());
+        }
+    }
+
+    private void setupRecyclerView() {
+        getCachedData();
         dashboardViewModel.bookRecyclerView = (RecyclerView) dashboardBinding.bookRecyclerView;
         dashboardViewModel.bookRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         dashboardViewModel.bookRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        if(dashboardViewModel.books.size() > 0) {
+            dashboardViewModel.bookAdapter = new BookAdapter(this, R.layout.book_info_card, dashboardViewModel.books);
+            dashboardViewModel.bookRecyclerView.setAdapter(dashboardViewModel.bookAdapter);
 
-        dashboardViewModel.bookAdapter = new BookAdapter(this, R.layout.book_info_card, dashboardViewModel.books);
-        dashboardViewModel.bookRecyclerView.setAdapter(dashboardViewModel.bookAdapter);
+            ItemClickSupport.addTo(dashboardViewModel.bookRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
 
-        ItemClickSupport.addTo(dashboardViewModel.bookRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-
-            @Override
-            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Gson gson = new Gson();
-                String detailJSON = gson.toJson(dashboardViewModel.books.get(position));
-                Intent intent = new Intent(DashboardActivity.this, BookDetailsActivity.class);
-                intent.putExtra(IntentKeys.BOOK_DETAILS, detailJSON);
-                startActivity(intent);
-            }
-        });
+                @Override
+                public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                    Gson gson = new Gson();
+                    String detailJSON = gson.toJson(dashboardViewModel.books.get(position));
+                    Intent intent = new Intent(DashboardActivity.this, BookDetailsActivity.class);
+                    intent.putExtra(IntentKeys.BOOK_DETAILS, detailJSON);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void prepareBookList(JSONArray bookJSONArray) {
@@ -193,7 +206,12 @@ public class DashboardActivity extends AppCompatActivity {
                     dashboardViewModel.books.add(book);
                 }
             }
-            dashboardViewModel.bookLiveDataList.setValue(dashboardViewModel.books);
+            String cachedJSON = "";
+            if (dashboardViewModel.books.size() > 0) {
+                cachedJSON = dashboardViewModel.gson.toJson(dashboardViewModel.books, new TypeToken<List<Book>>(){}.getType());
+                dashboardViewModel.preferenceHelper.saveUserInfo(Constants.CACHE_DATA, cachedJSON);
+                dashboardViewModel.bookLiveDataList.setValue(dashboardViewModel.books);
+            }
         } catch (JSONException ex) {
 
         }

@@ -14,6 +14,7 @@ import com.example.bookshop.ui.adapter.BookAdapter;
 import com.example.bookshop.utils.CommonHelper;
 import com.example.bookshop.utils.PreferenceHelper;
 import com.example.bookshop.utils.ResponseCallback;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class DashboardViewModel extends ViewModel {
     public BookAdapter bookAdapter;
     public RecyclerView bookRecyclerView;
     public List<Book> books;
+    public Gson gson;
 
     public DashboardViewModel() {
         apiClient = new ApiClient();

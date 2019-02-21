@@ -15,4 +15,5 @@ public class Constants {
     public static final String EMAIL = "email";
     public static final String CART_DATA = "cart_data";
     public static final String WISHLIST_DATA = "wishlist_data";
+    public static final String CACHE_DATA = "cache_data";
 }
