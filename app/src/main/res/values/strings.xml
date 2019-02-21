@@ -35,5 +35,7 @@
     <string name="something_went_wrong_text">Something went wrong</string>
     <string name="invalid_username_password_message">Invalid username or password</string>
     <string name="add_to_cart">ADD TO CART</string>
+    <string name="item_added_message">Item added to cart</string>
+    <string name="item_wishlist_message">Item added to wishlist</string>
 
 </resources>

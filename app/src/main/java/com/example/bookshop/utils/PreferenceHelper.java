@@ -65,4 +65,10 @@ public class PreferenceHelper {
         editor.remove(key);
         editor.commit();
     }
+
+    public void removeAll() {
+
+        SharedPreferences settings = context.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        settings.edit().clear().commit();
+    }
 }

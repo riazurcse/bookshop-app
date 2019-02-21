@@ -27,6 +27,10 @@ import com.example.bookshop.utils.ItemClickSupport;
 import com.example.bookshop.utils.PreferenceHelper;
 import com.example.bookshop.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,11 +47,13 @@ public class DashboardActivity extends AppCompatActivity {
     private ActivityDashboardBinding dashboardBinding;
 
     Toolbar toolbar;
+    Drawer drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initSetup();
+        setupNavigationDrawer(savedInstanceState);
     }
 
     private void initSetup() {
@@ -105,8 +111,48 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        setSupportActionBar((Toolbar) dashboardBinding.toolBar);
+        toolbar = (Toolbar) dashboardBinding.toolBar;
+        toolbar.setTitleMarginStart(0);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home");
+    }
+
+    private void setupNavigationDrawer(Bundle savedInstanceState) {
+
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Cart").withIcon(R.drawable.ic_cart).withIdentifier(1).withSelectable(true),
+                        new PrimaryDrawerItem().withName("Wishlist").withIcon(R.drawable.ic_wishlist).withIdentifier(2).withSelectable(true),
+                        new PrimaryDrawerItem().withName("Logout").withIcon(R.drawable.ic_logout).withIdentifier(3).withSelectable(true)
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+
+                        if (drawerItem != null) {
+                            Intent intent;
+                            if (drawerItem.getIdentifier() == 1) {
+
+                            } else if (drawerItem.getIdentifier() == 2) {
+
+                            } else if (drawerItem.getIdentifier() == 3) {
+                                dashboardViewModel.preferenceHelper.removeAll();
+                                intent = new Intent(DashboardActivity.this, LoginActivity.class);
+                                finishAffinity();
+                                startActivity(intent);
+                            }
+                        }
+                        return false;
+                    }
+                })
+                .withSavedInstance(savedInstanceState)
+                .withShowDrawerOnFirstLaunch(false)
+                .build();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
     }
 
     private void setupRecyclerView() {

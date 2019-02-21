@@ -10,6 +10,7 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/parentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activity.BookDetailsActivity">
@@ -71,7 +72,7 @@
                                     android:id="@+id/bookDetailTitleTV"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text=""
+                                    android:text="@{DetailsViewModel.title}"
                                     android:textAlignment="center"
                                     android:textColor="@color/colorPrimaryText"
                                     android:textSize="@dimen/primary_text_size"
@@ -82,7 +83,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/margin_5dp"
-                                    android:text=""
+                                    android:text="@{DetailsViewModel.subTitle}"
                                     android:textColor="@color/colorSecondaryText"
                                     android:textSize="@dimen/secondary_text_size"
                                     android:textStyle="normal" />
@@ -92,7 +93,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/margin_5dp"
-                                    android:text=""
+                                    android:text="@{DetailsViewModel.description}"
                                     android:textColor="@color/colorSecondaryText"
                                     android:textSize="@dimen/secondary_text_size"
                                     android:textStyle="normal" />

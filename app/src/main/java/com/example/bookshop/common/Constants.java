@@ -13,4 +13,6 @@ public class Constants {
     public static final String TOKEN = "token";
     public static final String NAME = "name";
     public static final String EMAIL = "email";
+    public static final String CART_DATA = "cart_data";
+    public static final String WISHLIST_DATA = "wishlist_data";
 }

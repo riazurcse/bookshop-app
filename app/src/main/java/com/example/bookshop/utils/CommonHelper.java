@@ -3,7 +3,9 @@ package com.example.bookshop.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.widget.RelativeLayout;
 
 public class CommonHelper {
 
@@ -35,5 +37,10 @@ public class CommonHelper {
                     }
                 });
         alertDialog.show();
+    }
+
+    public void showSnackAlert(String message, RelativeLayout parentLayout) {
+        Snackbar snackbar = Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }
