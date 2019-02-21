@@ -134,9 +134,13 @@ public class DashboardActivity extends AppCompatActivity {
                         if (drawerItem != null) {
                             Intent intent;
                             if (drawerItem.getIdentifier() == 1) {
-
+                                intent = new Intent(DashboardActivity.this, CartWishlistActivity.class);
+                                intent.putExtra(IntentKeys.SHOW_CART_LIST, true);
+                                startActivity(intent);
                             } else if (drawerItem.getIdentifier() == 2) {
-
+                                intent = new Intent(DashboardActivity.this, CartWishlistActivity.class);
+                                intent.putExtra(IntentKeys.SHOW_CART_LIST, false);
+                                startActivity(intent);
                             } else if (drawerItem.getIdentifier() == 3) {
                                 dashboardViewModel.preferenceHelper.removeAll();
                                 intent = new Intent(DashboardActivity.this, LoginActivity.class);

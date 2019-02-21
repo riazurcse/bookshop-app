@@ -37,5 +37,7 @@
     <string name="add_to_cart">ADD TO CART</string>
     <string name="item_added_message">Item added to cart</string>
     <string name="item_wishlist_message">Item added to wishlist</string>
+    <string name="no_cart_data_message">No cart data available</string>
+    <string name="no_wishlist_data_message">No wishlist data available</string>
 
 </resources>

@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
-        <activity android:name=".ui.activity.BookDetailsActivity"></activity>
+        <activity android:name=".ui.activity.CartWishlistActivity"></activity>
+        <activity android:name=".ui.activity.BookDetailsActivity" />
         <activity android:name=".ui.activity.DashboardActivity" />
         <activity android:name=".ui.activity.SignupActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
