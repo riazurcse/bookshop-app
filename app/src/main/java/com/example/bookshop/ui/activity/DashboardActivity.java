@@ -179,19 +179,19 @@ public class DashboardActivity extends AppCompatActivity {
         if(dashboardViewModel.books.size() > 0) {
             dashboardViewModel.bookAdapter = new BookAdapter(this, R.layout.book_info_card, dashboardViewModel.books);
             dashboardViewModel.bookRecyclerView.setAdapter(dashboardViewModel.bookAdapter);
-
-            ItemClickSupport.addTo(dashboardViewModel.bookRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-
-                @Override
-                public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    Gson gson = new Gson();
-                    String detailJSON = gson.toJson(dashboardViewModel.books.get(position));
-                    Intent intent = new Intent(DashboardActivity.this, BookDetailsActivity.class);
-                    intent.putExtra(IntentKeys.BOOK_DETAILS, detailJSON);
-                    startActivity(intent);
-                }
-            });
         }
+
+        ItemClickSupport.addTo(dashboardViewModel.bookRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Gson gson = new Gson();
+                String detailJSON = gson.toJson(dashboardViewModel.books.get(position));
+                Intent intent = new Intent(DashboardActivity.this, BookDetailsActivity.class);
+                intent.putExtra(IntentKeys.BOOK_DETAILS, detailJSON);
+                startActivity(intent);
+            }
+        });
     }
 
     private void prepareBookList(JSONArray bookJSONArray) {
