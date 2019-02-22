@@ -60,6 +60,7 @@
                         android:textStyle="normal" />
 
                     <Button
+                        android:id="@+id/btnLogin"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/height_35dp"
                         android:layout_marginLeft="@dimen/margin_5dp"
