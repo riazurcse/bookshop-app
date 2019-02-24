@@ -16,7 +16,7 @@ import com.example.bookshop.common.Constants;
 import com.example.bookshop.common.IntentKeys;
 import com.example.bookshop.databinding.ActivityCartWishlistBinding;
 import com.example.bookshop.model.Book;
-import com.example.bookshop.ui.adapter.BookAdapter;
+import com.example.bookshop.ui.adapter.CartWishlistAdapter;
 import com.example.bookshop.utils.CommonHelper;
 import com.example.bookshop.utils.ItemClickSupport;
 import com.example.bookshop.utils.PreferenceHelper;
@@ -105,8 +105,8 @@ public class CartWishlistActivity extends AppCompatActivity {
             cartWishlistViewModel.bookRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             cartWishlistViewModel.bookRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-            cartWishlistViewModel.bookAdapter = new BookAdapter(this, R.layout.book_info_card, cartWishlistViewModel.books);
-            cartWishlistViewModel.bookRecyclerView.setAdapter(cartWishlistViewModel.bookAdapter);
+            cartWishlistViewModel.cartWishlistAdapter = new CartWishlistAdapter(this, R.layout.cart_wishlist_book_info_card, cartWishlistViewModel.books);
+            cartWishlistViewModel.bookRecyclerView.setAdapter(cartWishlistViewModel.cartWishlistAdapter);
 
             ItemClickSupport.addTo(cartWishlistViewModel.bookRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
 

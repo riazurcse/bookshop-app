@@ -1,7 +1,10 @@
 package com.example.bookshop.ui.activity;
 
 import android.app.ProgressDialog;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -22,8 +25,10 @@ import com.example.bookshop.databinding.ActivityDashboardBinding;
 import com.example.bookshop.model.Book;
 import com.example.bookshop.model.Response;
 import com.example.bookshop.ui.adapter.BookAdapter;
+import com.example.bookshop.utils.ActivityObserver;
 import com.example.bookshop.utils.CommonHelper;
 import com.example.bookshop.utils.ItemClickSupport;
+import com.example.bookshop.utils.OnResumeCallback;
 import com.example.bookshop.utils.PreferenceHelper;
 import com.example.bookshop.viewmodel.DashboardViewModel;
 import com.google.gson.Gson;
@@ -40,9 +45,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements OnResumeCallback {
 
     private static final String TAG = DashboardActivity.class.getName();
+    private static int REQUEST_CODE = 101;
 
     private DashboardViewModel dashboardViewModel;
     private ActivityDashboardBinding dashboardBinding;
@@ -100,15 +106,13 @@ public class DashboardActivity extends AppCompatActivity {
                                         dashboardViewModel.commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 dashboardViewModel.commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
                             }
                         } catch (JSONException ex) {
 
                         }
-                    }
-                    else {
+                    } else {
                         dashboardViewModel.commonHelper.showAlert("" + response.getStatusCode(), getString(R.string.something_went_wrong_text));
                     }
                 } else {
@@ -116,6 +120,8 @@ public class DashboardActivity extends AppCompatActivity {
                 }
             }
         });
+
+        getLifecycle().addObserver(new ActivityObserver(this));
     }
 
     private void setupToolbar() {
@@ -182,7 +188,7 @@ public class DashboardActivity extends AppCompatActivity {
         dashboardViewModel.bookRecyclerView = (RecyclerView) dashboardBinding.bookRecyclerView;
         dashboardViewModel.bookRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         dashboardViewModel.bookRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        if(dashboardViewModel.books.size() > 0) {
+        if (dashboardViewModel.books.size() > 0) {
             dashboardViewModel.bookAdapter = new BookAdapter(this, R.layout.book_info_card, dashboardViewModel.books);
             dashboardViewModel.bookRecyclerView.setAdapter(dashboardViewModel.bookAdapter);
         }
@@ -214,7 +220,8 @@ public class DashboardActivity extends AppCompatActivity {
             }
             String cachedJSON = "";
             if (dashboardViewModel.books.size() > 0) {
-                cachedJSON = dashboardViewModel.gson.toJson(dashboardViewModel.books, new TypeToken<List<Book>>(){}.getType());
+                cachedJSON = dashboardViewModel.gson.toJson(dashboardViewModel.books, new TypeToken<List<Book>>() {
+                }.getType());
                 dashboardViewModel.preferenceHelper.saveUserInfo(Constants.CACHE_DATA, cachedJSON);
                 dashboardViewModel.bookLiveDataList.setValue(dashboardViewModel.books);
             }
@@ -226,5 +233,17 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public void onResumed(boolean isOnResumed) {
+        if (isOnResumed) {
+            if (dashboardViewModel.bookAdapter != null) {
+                if (dashboardViewModel.books.size() > 0) {
+                    dashboardViewModel.bookAdapter = new BookAdapter(this, R.layout.book_info_card, dashboardViewModel.books);
+                    dashboardViewModel.bookRecyclerView.setAdapter(dashboardViewModel.bookAdapter);
+                }
+            }
+        }
     }
 }

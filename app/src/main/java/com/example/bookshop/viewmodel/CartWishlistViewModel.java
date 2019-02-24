@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.bookshop.model.Book;
 import com.example.bookshop.ui.adapter.BookAdapter;
+import com.example.bookshop.ui.adapter.CartWishlistAdapter;
 import com.example.bookshop.utils.CommonHelper;
 import com.example.bookshop.utils.PreferenceHelper;
 import com.google.gson.Gson;
@@ -16,7 +17,7 @@ public class CartWishlistViewModel extends ViewModel {
     public CommonHelper commonHelper;
     public PreferenceHelper preferenceHelper;
 
-    public BookAdapter bookAdapter;
+    public CartWishlistAdapter cartWishlistAdapter;
     public RecyclerView bookRecyclerView;
     public List<Book> books;
     public Gson gson;
