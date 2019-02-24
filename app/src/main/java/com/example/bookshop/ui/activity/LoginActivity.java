@@ -41,7 +41,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
 
     boolean passwordVisibility = false;
     ProgressDialog mProgress;
-    private CommonHelper commonHelper;
     private PreferenceHelper preferenceHelper;
 
     @Override
@@ -52,14 +51,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
 
     private void initSetup() {
         mProgress = new ProgressDialog(this);
-        commonHelper = new CommonHelper(this);
         preferenceHelper = new PreferenceHelper(this);
-
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         setupToolbar();
         binding.setLifecycleOwner(this);
         binding.setLoginViewModel(loginViewModel);
+        loginViewModel.commonHelper = new CommonHelper(this);
         loginViewModel.getUser().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User loginUser) {
@@ -99,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
                                     if (!error) {
                                         navigateToDashboard(responseJSON);
                                     } else {
-                                        commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
+                                        loginViewModel.commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
                                     }
                                 }
                             }
@@ -108,10 +106,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
                         }
                     }
                     else {
-                        commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
+                        loginViewModel.commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
                     }
                 } else {
-                    commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
+                    loginViewModel.commonHelper.showAlert(getString(R.string.title_failed), getString(R.string.invalid_username_password_message));
                 }
             }
         });
@@ -161,7 +159,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnTouchList
 
     private void prepareLoginData(String username, String password) {
         try {
-            commonHelper.showLoader(mProgress, false, Constants.LOADING);
+            loginViewModel.commonHelper.showLoader(mProgress, false, Constants.LOADING);
             JSONObject params = new JSONObject();
             params.put("email", username);
             params.put("password", password);

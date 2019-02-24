@@ -39,5 +39,8 @@
     <string name="item_wishlist_message">Item added to wishlist</string>
     <string name="no_cart_data_message">No cart data available</string>
     <string name="no_wishlist_data_message">No wishlist data available</string>
+    <string name="no_internet_connection">No Internet connection available</string>
+    <string name="already_added_in_cart_message">Item already added in cart</string>
+    <string name="already_added_in_wishlist_message">Item already added in wishlist</string>
 
 </resources>

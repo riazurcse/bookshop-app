@@ -3,11 +3,16 @@ package com.example.bookshop.viewmodel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.bookshop.R;
+import com.example.bookshop.config.MyApp;
 import com.example.bookshop.model.Response;
 import com.example.bookshop.model.User;
 import com.example.bookshop.networking.ApiClient;
 import com.example.bookshop.repository.AuthRepository;
+import com.example.bookshop.utils.CommonHelper;
+import com.example.bookshop.utils.InternetConnection;
 import com.example.bookshop.utils.ResponseCallback;
 
 import org.json.JSONObject;
@@ -16,6 +21,7 @@ public class LoginViewModel extends ViewModel {
 
     private AuthRepository authRepository;
     private ApiClient apiClient;
+    public CommonHelper commonHelper;
 
     public LoginViewModel() {
         apiClient = new ApiClient();
@@ -46,8 +52,12 @@ public class LoginViewModel extends ViewModel {
 
     public void onClick(View view) {
 
-        User loginUser = new User(emailAddress.getValue(), password.getValue());
-        userMutableLiveData.setValue(loginUser);
+        if (InternetConnection.isConnected()) {
+            User loginUser = new User(emailAddress.getValue(), password.getValue());
+            userMutableLiveData.setValue(loginUser);
+        } else {
+            Toast.makeText(MyApp.getAppContext(), "No internet connection available", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void signupClicked(View view) {
@@ -55,10 +65,11 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void doLogin(JSONObject params) {
+
         authRepository.doLogin(params, new ResponseCallback() {
             @Override
             public void responseHandler(String res, int tag, int statusCode) {
-                Response apiResponse = new Response(statusCode, res == null ? "": res);
+                Response apiResponse = new Response(statusCode, res == null ? "" : res);
                 response.setValue(apiResponse);
             }
         });

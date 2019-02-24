@@ -125,9 +125,14 @@ public class BookDetailsActivity extends AppCompatActivity {
             }
             if (!itemAlreadyAdded) {
                 detailsViewModel.cart.add(detailsViewModel.book);
+                detailsViewModel.commonHelper.showSnackAlert(getString(R.string.item_added_message), parentLayout);
+            }
+            else {
+                detailsViewModel.commonHelper.showSnackAlert(getString(R.string.already_added_in_cart_message), parentLayout);
             }
         } else {
             detailsViewModel.cart.add(detailsViewModel.book);
+            detailsViewModel.commonHelper.showSnackAlert(getString(R.string.item_added_message), parentLayout);
         }
 
         if (!detailsViewModel.wishList.isEmpty()) {
@@ -144,7 +149,6 @@ public class BookDetailsActivity extends AppCompatActivity {
                 detailsViewModel.wishList.remove(indexToBeRemoved);
             }
         }
-        detailsViewModel.commonHelper.showSnackAlert(getString(R.string.item_added_message), parentLayout);
     }
 
     private void doAddToWishList() {
@@ -159,9 +163,14 @@ public class BookDetailsActivity extends AppCompatActivity {
             }
             if (!itemAlreadyAdded) {
                 detailsViewModel.wishList.add(detailsViewModel.book);
+                detailsViewModel.commonHelper.showSnackAlert( getString(R.string.item_wishlist_message), parentLayout);
+            }
+            else {
+                detailsViewModel.commonHelper.showSnackAlert(getString(R.string.already_added_in_wishlist_message), parentLayout);
             }
         } else {
             detailsViewModel.wishList.add(detailsViewModel.book);
+            detailsViewModel.commonHelper.showSnackAlert( getString(R.string.item_wishlist_message), parentLayout);
         }
 
         if (!detailsViewModel.cart.isEmpty()) {
@@ -178,8 +187,6 @@ public class BookDetailsActivity extends AppCompatActivity {
                 detailsViewModel.cart.remove(indexToBeRemoved);
             }
         }
-
-        detailsViewModel.commonHelper.showSnackAlert( getString(R.string.item_wishlist_message), parentLayout);
     }
 
     private void setupToolbar() {

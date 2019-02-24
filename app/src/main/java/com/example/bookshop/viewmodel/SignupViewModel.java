@@ -3,11 +3,14 @@ package com.example.bookshop.viewmodel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.bookshop.config.MyApp;
 import com.example.bookshop.model.Response;
 import com.example.bookshop.model.UserSignup;
 import com.example.bookshop.networking.ApiClient;
 import com.example.bookshop.repository.AuthRepository;
+import com.example.bookshop.utils.InternetConnection;
 import com.example.bookshop.utils.ResponseCallback;
 
 import org.json.JSONObject;
@@ -46,8 +49,12 @@ public class SignupViewModel extends ViewModel {
 
     public void onClick(View view) {
 
-        UserSignup signupUser = new UserSignup(name.getValue(), emailAddress.getValue(), password.getValue());
-        userMutableLiveData.setValue(signupUser);
+        if (InternetConnection.isConnected()) {
+            UserSignup signupUser = new UserSignup(name.getValue(), emailAddress.getValue(), password.getValue());
+            userMutableLiveData.setValue(signupUser);
+        } else {
+            Toast.makeText(MyApp.getAppContext(), "No internet connection available", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void doSignup(JSONObject params) {
